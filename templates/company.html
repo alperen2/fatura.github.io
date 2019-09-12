@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block page %}
+Compony
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if message %}
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <strong>{{message.status}}</strong> {{message.text}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<div class="row mb-5">
+    <div class="col-md-12 ">
+        <form method="POST" action="{{SITE_URL}}/company{% if company %}/update/{{company.id}} {% else %}/add{% endif %}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name">Company Name</label>
+                    <input type="text" class="form-control" id="name" name="name" {% if company %} value="{{company.name}}" {% endif %} placeholder="Company name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="reg">Reg. Com.</label>
+                    <input type="text" class="form-control" id="reg" name="reg" {% if company %} value="{{company.reg}}" {% endif %} placeholder="Reg. Com.">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="adresa">Adresa</label>
+                <input type="text" class="form-control" id="adresa" name="adresa" {% if company %} value="{{company.adresa}}" {% endif %} placeholder="Address">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="cif">CIF</label>
+                    <input type="text" class="form-control" id="cif" name="cif" {% if company %} value="{{company.cif}}" {% endif %} placeholder="CIF">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="judet">Judet</label>
+                    <input type="text" class="form-control" id="judet" name="judet" {% if company %} value="{{company.judet}}" {% endif %} placeholder="Judet">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tara">Tara</label>
+                    <input type="text" class="form-control" id="tara" name="tara" {% if company %} value="{{company.tara}}" {% endif %} placeholder="Tara">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary float-right"> {% if not company %} Kaydet {% else %} Güncelle {% endif %} </button>
+        </form>
+    </div>
+</div>
+
+{% if companies %}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th style="vertical-align:middle" scope="col">#</th>
+                    <th style="vertical-align:middle" scope="col">name</th>
+                    <th style="vertical-align:middle" scope="col">Reg.Com</th>
+                    <th style="vertical-align:middle" scope="col">Adresa</th>
+                    <th style="vertical-align:middle" scope="col">CIF</th>
+                    <th style="vertical-align:middle" scope="col">Judet</th>
+                    <th style="vertical-align:middle" scope="col">Tara</th>
+                    <th style="vertical-align:middle" scope="col"></th>
+                    <th style="vertical-align:middle" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody class="">
+                    {% for company in companies %}
+                        <tr>
+                            <th>FAV {{company.id}}</th>
+                            <td>{{company.name}}</td>
+                            <td>{{company.reg}}</td>
+                            <td>{{company.adresa}}</td>
+                            <td>{{company.cif}}</td>
+                            <td>{{company.judet}}</td>
+                            <td>{{company.tara}}</td>
+                            <td><a href="{{SITE_URL}}/company/edit/{{company.id}}" class="btn btn-primary"> Seç </a></td>
+                            <td><a href="{{SITE_URL}}/company/delete/{{company.id}}" class="btn btn-primary"> Sil </a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>    
+{% endif %}
+{% endblock %}

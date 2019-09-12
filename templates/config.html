@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block page %}
+Ayarlar
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if message %}
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <strong>{{message.status}}</strong> {{message.text}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<div class="row mb-5">
+    <div class="col-md-12 ">
+        <form method="POST" action="{{SITE_URL}}/config/update/{{id}}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="company_name">Company Name</label>
+                    <input type="text" class="form-control" id="company_name" name="company_name" {% if config %}
+                        value="{{config.company_name}}" {% endif %} placeholder="config name">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="reg">Reg. Com.</label>
+                    <input type="text" class="form-control" id="reg" name="reg" {% if config %} value="{{config.reg}}"
+                        {% endif %} placeholder="Reg. Com.">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="adresa">Adresa</label>
+                <input type="text" class="form-control" id="adresa" name="adresa" {% if config %}
+                    value="{{config.adresa}}" {% endif %} placeholder="Address">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="cif">CIF</label>
+                    <input type="text" class="form-control" id="cif" name="cif" {% if config %} value="{{config.cif}}"
+                        {% endif %} placeholder="CIF">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="email">E-mail</label>
+                    <input type="text" class="form-control" id="email" name="email" {% if config %}
+                        value="{{config.email}}" {% endif %} placeholder="email">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tel">Tel.</label>
+                    <input type="text" class="form-control" id="tel" name="tel" {% if config %} value="{{config.tel}}"
+                        {% endif %} placeholder="tel">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="owner_name">Şirket Sahibi Adı</label>
+                    <input type="text" class="form-control" id="owner_name" name="owner_name" {% if config %} value="{{config.owner_name}}"
+                        {% endif %} placeholder="Name Surname">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="owner_name">Şirket Sahibi Soyadı</label>
+                    <input type="text" class="form-control" id="owner_surname" name="owner_surname" {% if config %} value="{{config.owner_surname}}"
+                        {% endif %} placeholder="Name Surname">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="owner_id">Kimlik NO.</label>
+                    <input type="text" class="form-control" id="owner_id" name="owner_id" {% if config %} value="{{config.owner_id}}" {% endif %} placeholder="owner_id">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary float-right">Kaydet</button>
+        </form>
+    </div>
+</div>
+{# <div class="row mb-5">
+    <div class="col-md-6">
+        <form action="" method="post">
+            <div class="form-row">
+                <div class="col-md-12"><label for="">Para Birimi Tanımla</label></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="name" name="name" {% if company %}
+                        value="{{company.name}}" {% endif %} placeholder="Sembol">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input type="text" class="form-control" id="name" name="name" {% if company %}
+                        value="{{company.name}}" {% endif %} placeholder="Para birimi">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary float-right">Ekle</button>
+        </form>
+    </div>
+     <div class="col-md-6">
+        <div class="col-md-12"><label for="">Tanımlı para birimleri</label></div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Sembol</th>
+                    <th scope="col">Birim</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EUR</td>
+                    <td>EURO</td>
+                    <td><button type="submit" class="btn btn-primary btn-sm">Kaldır</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div> 
+</div> #}
+
+{% endblock %}

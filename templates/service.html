@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<style>
+
+</style>
+{% endblock %}
+{% block page %}
+Hizmetler
+{% endblock %}
+
+{% block content %}
+{% if message %}
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <strong>{{message.status}}</strong> {{message.text}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+<div class="row mb-5">
+    <div class="col-md-12 ">
+        <form method="POST"
+            action="{{SITE_URL}}/service{% if service %}/update/{{service.id}} {% else %}/add{% endif %}">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="definition">Serviciu</label>
+                    <input type="text" class="form-control" id="definition" name="definition" placeholder="Serviciu"
+                        value="{{service.definition}}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="currency">U.M</label>
+                    <select class="form-control" id="currency" name="currency" placeholder="U.M">
+                        {% for key, currency in currencies %}
+                        <option {% if service.currency == key %} selected {% endif %} value="{{key}}">{{currency}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="piece">Cant.</label>
+                    <input type="number" class="form-control" id="piece" name="piece" placeholder="Cant."
+                        value="{{service.piece}}" min="1">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="salary">Pref unitar<br>(EUR fara TVA)</label>
+                    <input type="number" class="form-control" id="salary" name="salary" placeholder="Pref unitar"
+                        value="{{service.salary}}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="tax">TVA<br>(EUR)</label>
+                    <input type="number" class="form-control" id="tax" name="tax" placeholder="TVA"
+                        value="{{service.tax}}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="company_id">Client<br>-</label>
+                    <select class="form-control" id="company_id" name="company_id" placeholder="Company">
+                        {% for company in companies %}
+                        <option {% if company.id == service.company_id %} selected {% endif %} value="{{company.id}}">
+                            {{company.name}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="from_place">Yükleme yeri</label>
+                    <input type="text" class="form-control" id="from_place" name="from_place" placeholder="Pref unitar"
+                        value="{{service.from_place}}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="to_place">boşaltma yeri</label>
+                    <input type="text" class="form-control" id="to_place" name="to_place" placeholder="Pref unitar"
+                        value="{{service.to_place}}">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="driver">Şoför</label>
+                    <select class="form-control" id="driver_id" name="driver_id" placeholder="Company">
+                        {% for driver in drivers %}
+                        <option {% if driver.id == service.driver_id %} selected {% endif %} value="{{driver.id}}">
+                            {{driver.name_surname}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="license_plate">Araç Plaka</label>
+                    <input type="text" class="form-control" id="license_plate" name="license_plate" placeholder="Plaka"
+                        value="{{service.license_plate}}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary float-right">
+                {% if not service %}
+                Ekle
+                {% else %}
+                Güncelle
+                {% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% if services %}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th style="vertical-align:middle" scope="col">Serviciu</th>
+                    <th style="vertical-align:middle" scope="col">U.M</th>
+                    <th style="vertical-align:middle" scope="col">Cant</th>
+                    <th style="vertical-align:middle" scope="col">Pref unitar<br><small>(EUR fara TVA)</small></th>
+                    <th style="vertical-align:middle" scope="col">Valoare<br><small>(EUR)</small></th>
+                    <th style="vertical-align:middle" scope="col">TVA<br><small>(EUR)</small></th>
+                    <th style="vertical-align:middle" scope="col">Client</th>
+                    <th style="vertical-align:middle" scope="col">DATE</th>
+                    <th style="vertical-align:middle" scope="col">Yükleme Yeri</th>
+                    <th style="vertical-align:middle" scope="col">Boşaltma Yeri</th>
+                    <th style="vertical-align:middle" scope="col"></th>
+                    <th style="vertical-align:middle" scope="col"></th>
+                    <th style="vertical-align:middle" scope="col"></th>
+                </tr>
+            </thead>
+            <tbody class="">
+                {% for service in services %}
+                <tr>
+                    <td>{{service.definition}}</td>
+                    <td>{{service.currency}}</td>
+                    <td>{{service.piece}}</td>
+                    <td>{{service.salary}}</td>
+                    <td>{{service.salary + service.tax}}</td>
+                    <td>{{service.tax}}</td>
+                    <td>{{service.name}}</td>
+                    <td>{{service.date}}</td>
+                    <td>{{service.from_place}}</td>
+                    <td>{{service.to_place}}</td>
+                    <td><a href="{{SITE_URL}}/service/edit/{{service.id}}" class="btn btn-primary"> Seç </a></td>
+                    <td><a href="{{SITE_URL}}/service/delete/{{service.id}}" class="btn btn-primary"> Sil </a></td>
+                    <td><a target="_blank" href="{{SITE_URL}}/service/print/{{service.id}}" class="btn btn-success">
+                            Yazdır </a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+{% block script %}
+<script>
+    $("#license_plate").change(function () {
+        let word = this.value;
+        this.value = word.toUpperCase();
+    });
+</script>
+{% endblock %}
